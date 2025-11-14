@@ -1,3 +1,4 @@
+// @ts-nocheck
 // PROG2005 - Assessment 2 - Part 1
 // Café/Bakery Inventory - TypeScript client-side app
 // Author: Pattricia Ruth Das - 24320588
