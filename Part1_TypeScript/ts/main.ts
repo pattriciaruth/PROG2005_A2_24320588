@@ -1,7 +1,7 @@
 // PROG2005 - Assessment 2 - Part 1
 // Café/Bakery Inventory - TypeScript client-side app
-// Author: YOUR NAME (263xxxxx)
-// Date: 2025-11-XX
+// Author: Pattricia Ruth Das - 24320588
+// Date: November 2025
 
 interface CafeItem {
   itemId: string;
@@ -85,19 +85,20 @@ function readItemFromForm(): { item: CafeItem | null; errors: string[] } {
   }
 
   const quantity = Number(quantityStr);
-  if (quantityStr && (Number.isNaN(quantity) || quantity < 0)) {
-    errors.push("Quantity must be a number greater than or equal to 0.");
-  }
+if (quantityStr && (isNaN(quantity) || quantity < 0)) {
+  errors.push("Quantity must be a number greater than or equal to 0.");
+}
 
-  const price = Number(priceStr);
-  if (priceStr && (Number.isNaN(price) || price < 0)) {
-    errors.push("Price must be a number greater than or equal to 0.");
-  }
+const price = Number(priceStr);
+if (priceStr && (isNaN(price) || price < 0)) {
+  errors.push("Price must be a number greater than or equal to 0.");
+}
 
-  const stockLevel = Number(stockLevelStr);
-  if (stockLevelStr && (Number.isNaN(stockLevel) || stockLevel < 1 || stockLevel > 5)) {
-    errors.push("Stock level must be between 1 (low) and 5 (full).");
-  }
+const stockLevel = Number(stockLevelStr);
+if (stockLevelStr && (isNaN(stockLevel) || stockLevel < 1 || stockLevel > 5)) {
+  errors.push("Stock level must be between 1 (low) and 5 (full).");
+}
+
 
   if (errors.length > 0) {
     return { item: null, errors };
@@ -148,7 +149,13 @@ function itemIdExists(itemId: string): boolean {
 function findItemIndexByName(name: string): number {
   const target = name.trim().toLowerCase();
   if (!target) return -1;
-  return inventory.findIndex((i) => i.name.toLowerCase() === target);
+
+  for (let i = 0; i < inventory.length; i++) {
+    if (inventory[i].name.toLowerCase() === target) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 /**
@@ -198,16 +205,24 @@ function updateItemByName(): void {
   }
 
   // Preserve original itemId uniqueness (allow same ID for same item)
-  const existingIdIndex = inventory.findIndex(
-    (i, idx) => i.itemId.toLowerCase() === item.itemId.toLowerCase() && idx !== index
-  );
-  if (existingIdIndex !== -1) {
-    showMessage(
-      "Item ID must remain unique. Another item already has this ID.",
-      "error"
-    );
-    return;
+  let existingIdIndex = -1;
+for (let i = 0; i < inventory.length; i++) {
+  if (
+    inventory[i].itemId.toLowerCase() === item.itemId.toLowerCase() &&
+    i !== index
+  ) {
+    existingIdIndex = i;
+    break;
   }
+}
+if (existingIdIndex !== -1) {
+  showMessage(
+    "Item ID must remain unique. Another item already has this ID.",
+    "error"
+  );
+  return;
+}
+
 
   inventory[index] = item;
   renderItems(inventory);
@@ -251,8 +266,9 @@ function searchByName(): void {
   }
 
   const filtered = inventory.filter((i) =>
-    i.name.toLowerCase().includes(searchValue)
-  );
+  i.name.toLowerCase().indexOf(searchValue) !== -1
+);
+
 
   if (filtered.length === 0) {
     renderItems([]);
