@@ -1,12 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Café Inventory Manager</title>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>This is a simple HTML page.</p>
+  <div class="app-container">
+    <header class="app-header">
+      <h1>Café & Bakery Inventory</h1>
+      <p>Manage hot foods and sweet items with simple stock tracking.</p>
+    </header>
+
+    <main class="app-main">
+      <!-- Form + Controls column -->
+      <section class="left-column">
+        <!-- Item Form -->
+        <section class="card form-section">
+          <h2>Item details</h2>
+          <form id="itemForm" novalidate>
+            <div class="field-group">
+              <label for="itemIdInput">Item ID<span class="required">*</span></label>
+              <input id="itemIdInput" type="text" placeholder="e.g. HF101" />
+            </div>
+
+            <div class="field-group">
+              <label for="itemNameInput">Item name<span class="required">*</span></label>
+              <input id="itemNameInput" type="text" placeholder="e.g. Chicken Pie" />
+            </div>
+
+            <div class="field-group">
+              <label for="categorySelect">Category<span class="required">*</span></label>
+              <select id="categorySelect">
+                <option value="">Select category</option>
+                <option value="Hot Food">Hot Food</option>
+                <option value="Sweet Item">Sweet Item</option>
+                <option value="Beverage">Beverage</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="field-grid">
+              <div class="field-group">
+                <label for="quantityInput">Quantity<span class="required">*</span></label>
+                <input id="quantityInput" type="number" min="0" step="1" placeholder="0" />
+              </div>
+
+              <div class="field-group">
+                <label for="priceInput">Price ($)<span class="required">*</span></label>
+                <input id="priceInput" type="number" min="0" step="0.01" placeholder="0.00" />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="supplierInput">Supplier name<span class="required">*</span></label>
+              <input id="supplierInput" type="text" placeholder="e.g. Local Bakery Supplier" />
+            </div>
+
+            <div class="field-grid">
+              <div class="field-group">
+                <label for="stockLevelSelect">
+                  Stock level (1 = low, 5 = full)<span class="required">*</span>
+                </label>
+                <select id="stockLevelSelect">
+                  <option value="">Select level</option>
+                  <option value="1">1 - Very low</option>
+                  <option value="2">2 - Low</option>
+                  <option value="3">3 - Medium</option>
+                  <option value="4">4 - High</option>
+                  <option value="5">5 - Full</option>
+                </select>
+              </div>
+
+              <div class="field-group checkbox-group">
+                <label for="popularCheckbox">Popular item?</label>
+                <input id="popularCheckbox" type="checkbox" />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="commentInput">Comment</label>
+              <textarea id="commentInput" rows="3" placeholder="Notes, e.g. contains nuts, vegan, etc."></textarea>
+            </div>
+
+            <div class="button-row">
+              <button type="button" id="addButton" class="btn primary">Add item</button>
+              <button type="button" id="updateButton" class="btn">Update by name</button>
+              <button type="button" id="deleteButton" class="btn danger">Delete by name</button>
+              <button type="button" id="clearButton" class="btn ghost">Clear form</button>
+            </div>
+          </form>
+
+          <div
+            id="messageBox"
+            class="message"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+        </section>
+
+        <!-- Search / Filters -->
+        <section class="card controls-section">
+          <h2>Find items</h2>
+          <div class="field-group">
+            <label for="searchInput">Search by name</label>
+            <div class="search-row">
+              <input id="searchInput" type="text" placeholder="e.g. Brownie" />
+              <button type="button" id="searchButton" class="btn">Search</button>
+            </div>
+          </div>
+          <div class="filter-buttons">
+            <button type="button" id="showAllButton" class="btn ghost">Show all items</button>
+            <button type="button" id="showPopularButton" class="btn ghost">Show popular only</button>
+          </div>
+        </section>
+      </section>
+
+      <!-- Items list column -->
+      <section class="right-column card list-section">
+        <h2>Inventory items</h2>
+        <p class="hint">
+          Items are stored in memory only while this page is open.
+        </p>
+        <div class="table-wrapper">
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Item ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Qty</th>
+                <th>Price ($)</th>
+                <th>Supplier</th>
+                <th>Stock</th>
+                <th>Popular</th>
+                <th>Comment</th>
+              </tr>
+            </thead>
+            <tbody id="itemsTableBody">
+              <!-- Rows inserted by TypeScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Load compiled JavaScript generated from ts/main.ts -->
+  <script src="ts/main.js"></script>
 </body>
 </html>
